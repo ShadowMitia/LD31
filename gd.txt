@@ -1,3 +1,0 @@
--> Labyrinthe
-
-1 Mouvement du joueur = mouvement des murs + ennemis ?
