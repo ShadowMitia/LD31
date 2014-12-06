@@ -196,7 +196,7 @@ function update(timeElapsed) {
             y = y + dy;
         } else if(tileMap[x + dx + tileWidth * (y + dy)] === 0) {
             //ERROR SOUND & IMAGE
-            Alert('Mouvement impossible !');
+            alert('Mouvement impossible !');
         }
     }
 
