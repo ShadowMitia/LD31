@@ -1,6 +1,5 @@
 > FAIRE LES NIVEAUX.
 > Génération procédurale ?
-> Feedback mouvement impossible (son + image)
 > Système de checkpoints + reset button.
 > Animations ?
 > Musique/bruitages.
