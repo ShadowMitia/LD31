@@ -242,7 +242,7 @@ function render() {
 /* ------------------------------------------------------------------------ */
 
 context.font = '18px Arial';
-context.fillText('Loading...', 20, 20);
+context.fillText('Loading...', canvas.width / 2, canvas.height / 2);
 
 //Start the game loop once the assets are loaded.
 var tileset = new Image();
@@ -253,5 +253,5 @@ tileset.addEventListener("load", function() {
 tileset.src = 'tileset.png';
 map = new Array(tileWidth * tileHeight);
 mapPattern = new Array(tileWidth * tileHeight);
-map = gameMap.slice();
-mapPattern = gameMapPattern.slice();
+var map = gameMap.slice();
+var mapPattern = gameMapPattern.slice();

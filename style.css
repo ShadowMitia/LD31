@@ -1,4 +1,24 @@
+h1 {
+	color: blue;
+	text-align: center;
+}
+
+body  {
+	background-color: #0FC308;
+}
+
 #canvas {
+	padding: 0px;
     width: 512px;
     height: 288px;
+    margin: auto;
+    display: block;
+    border: 50px solid green;
+}
+
+#score, #currentLevel {
+	color: white;
+	background-color: #7607A0;
+	text-align: center;
+	margin: auto;
 }
