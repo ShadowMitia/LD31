@@ -233,16 +233,38 @@ function getLoot(value){
 }
 
 
-function generateLabyrinth(){
+function generateLabyrinth(pieces){
+  pieces = [
+  "111\n000\n111",
+  "111\n000\n101\n101"
+  ]
   var newMap = new Array(tileWidth * tileHeight);
+    for (m = 0; m < pieces.length; m++){
+      p = pieces[m];
+      s = 0;
+      for ( ss = 0; ss < p.length; ss++){
+        if (p[ss] === "\n") {
+          s++;
+        }
+      }
+      s += 1;
+      p = p.split("\n");
 
-  // ADD USEFUL CODE HERE
+      for ( k = 0; k < s; k++){
+        for ( l = 0; l < p.length * s; l++){
+          newMap[l + tileWidth * k] = p[k][l];
+        }
+      }
+
+  }
+
+
 
   return newMap;
 }
 
-function loadLevels(file){
-  // add code to read pixels as objects and create a massive array
+function loadPieces(file){
+
 }
 
 /* ------------------------------------------------------------------------ */
@@ -258,3 +280,4 @@ tileset.addEventListener("load", function() {
     requestAnimationFrame(onEnterFrame);
 }, false);
 tileset.src = 'tileset.png';
+tileMap = generateLabyrinth(null);
