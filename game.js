@@ -197,6 +197,9 @@ function update(timeElapsed) {
 
             x = x + dx;
             y = y + dy;
+
+            errorX = null;
+            errorY = null;
         } else if(tileMap[x + dx + tileWidth * (y + dy)] === 0) {
             errorX = x + dx;
             errorY = y + dy;
