@@ -79,7 +79,7 @@ function onEnterFrame() {
 //Game-related declarations.
 var x = Math.floor(tileWidth / 2),
     y = Math.floor(tileHeight / 2),
-    map = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+    gameMap = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
            1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
            1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
            1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
@@ -99,7 +99,7 @@ var x = Math.floor(tileWidth / 2),
            1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
           ];
 
-      mapPattern = [
+      gameMapPattern = [
            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -119,6 +119,8 @@ var x = Math.floor(tileWidth / 2),
            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
       ]
+
+
 
 function update(timeElapsed) {
     if(releasedKeys['&'] || releasedKeys['('] || releasedKeys['%'] || releasedKeys["'"]) {
@@ -186,6 +188,8 @@ function update(timeElapsed) {
 
         if (mapPattern[x + tileWidth * y] !== 0){
           alert("T'es mort!");
+          map = gameMap.slice();
+          mapPattern = gameMapPattern.slice();
         }
     }
 
@@ -221,6 +225,18 @@ function render() {
     context.arc(Math.floor((x + 0.5) * tileSize), Math.floor((y + 0.5) * tileSize), 5, 0, 2 * Math.PI);
     context.fill();
     context.stroke();
+    /*
+        context.fillStyle = '#FFFFFF'
+    context.beginPath();
+    context.arc(Math.floor((x + 1.25) * tileSize), Math.floor((y + 0.5) * tileSize), 2, 0, 2 * Math.PI);
+    context.fill();
+    context.stroke();
+        context.fillStyle = '#FFFFFF'
+    context.beginPath();
+    context.arc(Math.floor((x - 0.25) * tileSize), Math.floor((y + 0.5) * tileSize), 2, 0, 2 * Math.PI);
+    context.fill();
+    context.stroke();
+    */
 }
 
 /* ------------------------------------------------------------------------ */
@@ -235,3 +251,7 @@ tileset.addEventListener("load", function() {
     requestAnimationFrame(onEnterFrame);
 }, false);
 tileset.src = 'tileset.png';
+map = new Array(tileWidth * tileHeight);
+mapPattern = new Array(tileWidth * tileHeight);
+map = gameMap.slice();
+mapPattern = gameMapPattern.slice();
