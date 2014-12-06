@@ -97,7 +97,7 @@ var x = Math.floor(tileWidth / 2),
            1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
            1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
            1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-          ];
+          ],
 
       gameMapPattern = [
            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -118,9 +118,26 @@ var x = Math.floor(tileWidth / 2),
            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-      ]
+      ],
+      score = 0;
+
+function getLoot(value){
+  score += value;
+  document.getElementById("score").innerHTML = "Score: " + score;
+}
 
 
+function generateLabyrinth(){
+  var newMap = new Array(tileWidth * tileHeight);
+
+  // ADD USEFUL CODE HERE
+
+  return newMap;
+}
+
+function loadLevels(file){
+  // add code to read pixels as objects and create a massive array
+}
 
 function update(timeElapsed) {
     if(releasedKeys['&'] || releasedKeys['('] || releasedKeys['%'] || releasedKeys["'"]) {
@@ -190,6 +207,8 @@ function update(timeElapsed) {
           alert("T'es mort!");
           map = gameMap.slice();
           mapPattern = gameMapPattern.slice();
+          x = Math.floor(tileWidth / 2);
+          y = Math.floor(tileHeight / 2);
         }
     }
 
@@ -241,6 +260,7 @@ function render() {
 
 /* ------------------------------------------------------------------------ */
 
+
 context.font = '18px Arial';
 context.fillText('Loading...', canvas.width / 2, canvas.height / 2);
 
@@ -251,7 +271,5 @@ tileset.addEventListener("load", function() {
     requestAnimationFrame(onEnterFrame);
 }, false);
 tileset.src = 'tileset.png';
-map = new Array(tileWidth * tileHeight);
-mapPattern = new Array(tileWidth * tileHeight);
 var map = gameMap.slice();
 var mapPattern = gameMapPattern.slice();
