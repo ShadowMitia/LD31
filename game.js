@@ -256,20 +256,10 @@ function update(timeElapsed) {
 
             x = x + dx;
             y = y + dy;
-<<<<<<< HEAD
-        }
-
-        if (mapPattern[x + tileWidth * y] !== 0){
-          alert("T'es mort!");
-          map = gameMap.slice();
-          mapPattern = gameMapPattern.slice();
-          x = Math.floor(tileWidth / 2);
-          y = Math.floor(tileHeight / 2);
-=======
         } else if(tileMap[x + dx + tileWidth * (y + dy)] === 0) {
             //ERROR SOUND & IMAGE
-            Alert('Mouvement impossible !');
->>>>>>> 093a8f520b54c20c72236cfbacdead0a2c4ff3c3
+
+            alert('Mouvement impossible !');
         }
     }
 
