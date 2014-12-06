@@ -1,8 +1,11 @@
 //Settings.
 var canvas = document.getElementById('canvas'),
     context = canvas.getContext('2d'),
-    width = 512, //16 * 32
-    height = 288, //16 * 18
+    tileWidth = 32;
+    tileHeight = 18;
+    tileSize = 16;
+    width = tileWidth * tileSize,
+    height = tileHeight * tileSize,
     fps = 60,
     minFps = 4;
 
@@ -12,7 +15,8 @@ var requestAnimationFrame = window.requestAnimationFrame
                             || window.webkitRequestAnimationFrame
                             || window.msRequestAnimationFrame,
     body = document.getElementsByTagName('body')[0],
-    keys = {},
+    keys = {}
+    releasedKeys = {},
     mouse = {},
     click = null,
     time = 0, //Time elapsed in in-game milliseconds.
@@ -33,6 +37,7 @@ body.addEventListener('keydown', function(event) {
 
 body.addEventListener('keyup', function(event) {
   keys[String.fromCharCode(event.which)] = false;
+  releasedKeys[String.fromCharCode(event.which)] = true;
 }, false);
 
 canvas.addEventListener('mousemove', function(event) {
@@ -72,56 +77,103 @@ function onEnterFrame() {
 /* ------------------------------------------------------------------------ */
 
 //Game-related declarations.
-var x = 256,
-    y = 144,
-    v = 0.1,
+var x = Math.floor(tileWidth / 2),
+    y = Math.floor(tileHeight / 2),
     map = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
            1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
            1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
            1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+           1, 0, 0, 0, 0, 5, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+           1, 0, 0, 0, 0, 5, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
            1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
            1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-           1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-           1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-           1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-           1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-           1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-           1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1,
-           1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1,
-           1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1,
-           1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-           1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+           1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+           1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+           1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+           1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+           1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+           1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+           1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+           1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
            1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
            1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
           ];
 
-
 function update(timeElapsed) {
-    x += v * timeElapsed;
-    y += v * timeElapsed;
+    if(releasedKeys['&'] || releasedKeys['('] || releasedKeys['%'] || releasedKeys["'"]) {
+        var i, j, tile, oldMap = map;
 
-    while(x >= 512) {
-        x -= 512;
+        map = new Array(tileWidth * tileHeight);
+        for(var k = 0; k < tileWidth * tileHeight; k++) {
+            map[k] = 0;
+        }
+
+        //Process labyrinth movements.
+        for(j = 0; j < tileHeight; j++) {
+            for(i = 0; i < tileWidth; i++) {
+                tile = oldMap[i + tileWidth * j];
+                
+                switch(tile) {
+                    case 1:
+                        map[i + tileWidth * j] = 1;
+                        break;
+                    case 5:
+                        map[i + tileWidth * j + 1] = 6;
+                        break;
+                    case 6:
+                        map[i + tileWidth * j - 1] = 5;
+                        break;
+                }
+            }
+        }
+        
+        //Process player input.
+        var dx = 0,
+            dy = 0;
+
+        if(releasedKeys['&']) { //Up arrow.
+            dy = -1;
+        }
+        if(releasedKeys['(']) { //Down arrow.
+            dy = 1;
+        }
+        if(releasedKeys['%']) { //Left arrow.
+            dx = -1;
+        }
+        if(releasedKeys["'"]) { //Right arrow.
+            dx = 1;
+        }
+
+        if(map[x + dx + tileWidth * (y + dy)] === 0) {
+            x = x + dx;
+            y = y + dy;
+        }
     }
 
-    while(y >= 288) {
-        y -= 288;
-    }
+    releasedKeys = {};
 }
 
 function render() {
     context.fillStyle = '#EFEFEF';
     context.fillRect(0, 0, width, height);
 
-    for(var j = 0; j < 18; j++) {
-        for(var i = 0; i < 32; i++) {
-            context.drawImage(tileset, 16 * map[i + 32*j], 0, 16, 16, i*16, j*16, 16, 16);
+    var j, i, tile;
+
+    for(j = 0; j < tileHeight; j++) {
+        for(i = 0; i < tileWidth; i++) {
+            tile = map[i + tileWidth * j];
+
+            if(tile !== 0) {
+                tile = 1;
+            }
+
+            context.drawImage(tileset, tileSize * tile, 0, tileSize, tileSize, i * tileSize, j * tileSize, tileSize, tileSize);
         }
     }
 
     context.fillStyle = '#46E884'
     context.beginPath();
-    context.arc(x, y, 5, 0, 2 * Math.PI);
+    context.arc(Math.floor((x + 0.5) * tileSize), Math.floor((y + 0.5) * tileSize), 5, 0, 2 * Math.PI);
     context.fill();
     context.stroke();
 }
