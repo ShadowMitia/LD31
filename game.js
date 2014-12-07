@@ -319,7 +319,6 @@ function update(timeElapsed) {
                 currentPattern = patternLevels[currentLevel].slice(0);
                 checkpointX = x;
                 checkpointY = y;
-
             }
         } else if(currentMap[x + dx + tileWidth * (y + dy)] === 0) {
             errorX = x + dx;
@@ -385,9 +384,9 @@ var tileset = new Image(),
     errorImage = new Image(),
     errorSound = new Audio();
 
-errorSound.addEventListener('canplaythrough', function() {
+//errorSound.addEventListener('canplaythrough', function() {
     errorImage.src = 'error.png';
-}, false);
+//}, false);
 
 errorImage.addEventListener('load', function() {
     tileset.src = 'tileset.png';
@@ -398,4 +397,4 @@ tileset.addEventListener('load', function() {
     requestAnimationFrame(onEnterFrame);
 }, false);
 
-errorSound.src = 'error.wav';
+//errorSound.src = 'error.wav';

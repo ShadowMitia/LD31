@@ -18,7 +18,7 @@ body  {
     border-radius: 25px;
 }
 
-#score, #currentLevel, #info_joueur {
+#currentLevel, #info_joueur {
 	width: 50%;
 	color: white;
 	background-color: #111111;
