@@ -24,7 +24,7 @@ var requestAnimationFrame = window.requestAnimationFrame
         '(': null, //Down arrow.
         'R': null
     },
-    keyTime = 120,
+    keyTime = 90,
     mouse = {},
     click = null,
     time = 0, //Time elapsed in in-game milliseconds.
@@ -152,9 +152,9 @@ var x = 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 1, 0, 0, 1, 1, 1, 0, 1, 1, 0, 0, 1, 1, 1, 0, 1, 1, 1, 0, 0, 1, 1,
-        0, 0, 10, 0, 0, 1, 0, 0, 0, 1, 1, 1, 0, 1, 1, 0, 0, 1, 0, 1, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0,
-        0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 0, 1, 0, 1, 1, 1, 0, 1, 1, 0, 0, 1, 1, 1, 0, 0, 1, 0, 0, 1, 1, 0,
+        0, 0, 0, 0, 0, 1, 1, 0, 1, 1, 0, 0, 1, 1, 1, 0, 1, 1, 0, 0, 1, 1, 1, 0, 1, 1, 1, 0, 0, 1, 1, 0,
+        0, 0, 10, 0, 1, 0, 0, 0, 1, 1, 1, 0, 1, 1, 0, 0, 1, 0, 1, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0,
+        0, 0, 0, 0, 0, 1, 1, 0, 1, 0, 1, 0, 1, 1, 1, 0, 1, 1, 0, 0, 1, 1, 1, 0, 0, 1, 0, 0, 1, 1, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     ],
     patternMapMenu = [
@@ -570,7 +570,12 @@ var tileset = new Image(),
     errorSound = new Audio(),
     resetSound = new Audio(),
     checkpointSound = new Audio(),
-    levelChangeSound  = new Audio();
+    levelChangeSound  = new Audio(),
+    wololo = new Audio();
+
+wololo.addEventListener('canplaythrough', function() {
+    levelChangeSound.src = 'assets/levelChange.mp3';
+}, false);
 
 levelChangeSound.addEventListener('canplaythrough', function() {
     checkpointSound.src = 'assets/checkpoint.mp3';
@@ -596,6 +601,7 @@ errorImage.addEventListener('load', function() {
 tileset.addEventListener('load', function() {
     lastTime = new Date().getTime();
     requestAnimationFrame(onEnterFrame);
+    wololo.play();
 }, false);
 
-levelChangeSound.src = 'assets/levelChange.mp3';
+wololo.src = 'assets/wololo.mp3';

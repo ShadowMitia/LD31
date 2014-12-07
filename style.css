@@ -1,11 +1,12 @@
 h1 {
-    color: #EFEFEF;
     text-align: center;
-    font-size: 4em;
+    font-size: 3em;
 }
 
 body {
+    color: #EFEFEF;
     background-color: #111111;
+    text-align: center;
 }
 
 #canvas {
@@ -29,4 +30,9 @@ body {
     display: block;
     margin: auto;
     margin-top: 5px;
+}
+
+p {
+    position: relative;
+    bottom: 20px;
 }
