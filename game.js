@@ -153,7 +153,7 @@ var x = 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 1, 0, 0, 1, 1, 1, 0, 1, 1, 0, 0, 1, 1, 1, 0, 1, 1, 1, 0, 0, 1, 1,
-        0, 0, 3, 0, 0, 1, 0, 0, 0, 1, 1, 1, 0, 1, 1, 0, 0, 1, 0, 1, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0,
+        0, 0, 10, 0, 0, 1, 0, 0, 0, 1, 1, 1, 0, 1, 1, 0, 0, 1, 0, 1, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0,
         0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 0, 1, 0, 1, 1, 1, 0, 1, 1, 0, 0, 1, 1, 1, 0, 0, 1, 0, 0, 1, 1, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     ],
@@ -221,13 +221,13 @@ var x = 0,
         1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
         1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 3, 1, 1, 
         1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 0, 1, 0, 1, 1, 
-        1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, /*0*/4, 1, 1, 
+        1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 
         1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 0, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 
         1, 0, 1, 1, 0, 0, 1, 1, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 
         1, 0, 1, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 
         1, 0, 1, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1, 1, 0, 1, 1, 1, 0, 1, 0, 0, 0, 0, 1, 
         1, 0, 1, 0, 1, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 
-        1, 0, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, /*4*/0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 
+        1, 0, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 4, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 
         1, 0, 1, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 
         1, 0, 1, 0, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 
         1, 0, 1, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 
@@ -305,8 +305,11 @@ function update(timeElapsed) {
         if(key['R'] !== null) {
             x = checkpointX;
             y = checkpointY;
+
             currentMap = checkpointTileMap.slice(0);
             currentPattern = checkpointPatternMap.slice(0);
+
+            resetSound.play();
         } else if(key['%'] >= keyTime) { //Left arrow.
             key['%'] -= keyTime;
             dx = -1;
@@ -366,22 +369,21 @@ function update(timeElapsed) {
                         }
                     }
                 }
-            }
 
-            //Check Collisions. Only move if the player goes to a floor tile.
-            if(newTileMap[x + dx + tileWidth * (y + dy)] !== 1) {
-                currentMap = newTileMap;
-                currentPattern = newPatternMap;
+                //Check Collisions. Only move if the player goes to a floor tile.
+                if(newTileMap[x + dx + tileWidth * (y + dy)] !== 1) {
+                    currentMap = newTileMap;
+                    currentPattern = newPatternMap;
 
-                x = x + dx;
-                y = y + dy;
+                    x = x + dx;
+                    y = y + dy;
 
-                errorX = null;
-                errorY = null;
-                //If a checkpoint is reached.
-                if(currentMap[x + tileWidth * y] === 2 || currentMap[x + tileWidth * y] === 3) { //Blue or Red checkpoint.
-                    //Remove the old one.
-                    currentMap[checkpointX + tileWidth * checkpointY] = 0;
+                    errorX = null;
+                    errorY = null;
+                    //If a checkpoint is reached.
+                    if(currentMap[x + tileWidth * y] === 2 || currentMap[x + tileWidth * y] === 3) { //Blue or Red checkpoint.
+                        //Remove the old one.
+                        currentMap[checkpointX + tileWidth * checkpointY] = 0;
 
                         //If the checkpoint is red, change the level.
                         if(currentMap[x + tileWidth * y] === 3) {
@@ -395,6 +397,8 @@ function update(timeElapsed) {
                                 levelChangeTime = 0;
                                 levelChangeCounter = 0;
                                 levelChangeMap = currentMap.slice(0);
+                                levelChangeSound.play();
+
                                 //Update the level display.
                                 document.getElementById("currentLevel").innerHTML = "Level: " + (currentLevel + 1);
 
@@ -407,12 +411,17 @@ function update(timeElapsed) {
                         } else { //The checkpoint is blue.
                             checkpointTileMap = currentMap.slice(0);
                             checkpointPatternMap = currentPattern.slice(0);
+
+                            checkpointSound.play();
                         }
 
                         //Activate the new checkpoint
                         currentMap[x + tileWidth * y] = 4;
                         checkpointX = x;
                         checkpointY = y;
+                    } else if(currentMap[x + tileWidth * y] === 10) {
+                        alert('Game made for Ludum Dare 31\nTeam:\n');
+                    } 
                 } else { //The player cannot move. Notify him.
                     errorX = x + dx;
                     errorY = y + dy;
