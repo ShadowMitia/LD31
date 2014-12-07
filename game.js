@@ -7,7 +7,7 @@ var canvas = document.getElementById('canvas'),
     tileAmount = tileWidth * tileHeight,
     width = tileWidth * tileSize,
     height = tileHeight * tileSize,
-    fps = 60,
+    fps = 30,
     minFps = 4;
 
 //Engine variables. Time is handled in milliseconds.
@@ -95,14 +95,14 @@ var x = 0,
     currentLevel = 0,
     tileMapTest = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
                    1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-                   1, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+                   1, 0, 4, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
                    1, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
                    1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
                    1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
                    1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
                    1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
                    1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-                   1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+                   1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
                    1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
                    1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
                    1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
@@ -188,8 +188,9 @@ var x = 0,
     score = 0,
     levelChange = false,
     levelChangeEnded = false,
-    time = 0,
-    counter = 0;
+    counter = 0,
+    previousCounter = 0;
+    animStartTime = 0;
 
 function update(timeElapsed) {
   if (!levelChange){
@@ -284,6 +285,8 @@ function update(timeElapsed) {
                     } else {
                         levelChange = true;
 
+                        animStartTime = time;
+
                         checkpointTileMap = tileLevels[currentLevel];
                         checkpointPatternMap = patternLevels[currentLevel];
 
@@ -318,17 +321,15 @@ function update(timeElapsed) {
     //Clear the released keys queue.
     releasedKeys = [];
   } else {
-    time += timeElapsed;
-    if (time > 5000){
-      time = 0;
-      counter++;
+      now = time;
+      if (now - animStartTime > 4000){
+        previousCounter = counter;
+        counter++;
+        if (counter > 5){
+          levelChange = false;
+        }
+      }
     }
-  }
-  if (counter == 2 && levelChange){
-      levelChange = false;
-      levelChangeEnded = true;
-      counter = 0;
-  }
 }
 
 function render() {
@@ -370,14 +371,58 @@ function render() {
         }
     } else {
         var rand, value;
+        var tempMap = currentMap;
+        if (previousCounter == counter){
+          /*
+        for(j = 0; j < tileHeight; j++) {
+            for(i = 0; i < tileWidth; i++) {
+              
+                tile = tempMap[i + tileWidth * j];
 
-        for (i = 0; i < tileHeight; i++){
-            for (j = 0; j < tileWidth; j++){
-                rand = Math.floor(Math.random() * tileHeight * tileWidth);
-                value =  (currentMap[rand] === 0 ? 1 : 0);
-                context.drawImage(tileset, tileSize * value, 0, tileSize, tileSize, j * tileSize, i * tileSize, tileSize, tileSize); 
-            }
+                if(tile === 1 && currentPattern[j + tileWidth * i] !== '') {
+                    switch(currentPattern[i + tileWidth * j][0]) {
+                        case 'g':
+                            tile = 5;
+                            break;
+                        case 'h':
+                            tile = 6;
+                            break;
+                        case 'd':
+                            tile = 7;
+                            break;
+                        case 'b':
+                            tile = 8;
+                            break;
+                    }
+                }
+              context.drawImage(tileset, tileSize * tile, 0, tileSize, tileSize, i * tileSize, j * tileSize, tileSize, tileSize);
+
+
+              
+              // if ( !(i == y && j == x)) {
+              //   rand = Math.floor(Math.random() * tileHeight * tileWidth);
+              //   value =  (tempMap[rand] === 0 ? 1 : 0);
+              //   context.drawImage(tileset, tileSize * value, 0, tileSize, tileSize, j * tileSize, i * tileSize, tileSize, tileSize); 
+              // } else {
+              //   context.drawImage(tileset, 0, 0, tileSize, tileSize, j * tileSize, i * tileSize, tileSize, tileSize);
+              // }
+              
+
+          }
         }
+        */
+        /*
+        for (k = 0; k < 10; k++){
+          var randX = Math.floor(Math.random() * tileWidth);
+          var randY = Math.floor(Math.random() * tileHeight);
+          var rand = Math.floor(Math.random()  * tileAmount)
+          console.log(randX + " " + randY);
+
+          context.drawImage(tileset, tileSize * tempMap[rand], 0, tileSize, tileSize, randX * tileSize, randY * tileSize, tileSize, tileSize);
+          context.drawImage(tileset, 0, 0, tileSize, tileSize, y * tileSize, x * tileSize, tileSize, tileSize);        }
+      }
+      */
+      
     }
 
     //Render the character
