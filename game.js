@@ -401,6 +401,9 @@ function render() {
                         case 'b':
                             tile = 8;
                             break;
+                        case '-':
+                            tile = 9;
+                            break;
                     }
                 }
 
