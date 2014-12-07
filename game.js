@@ -87,6 +87,44 @@ function initArray(size, value) {
     return array;
 }
 
+/**
+ * Draws a rounded rectangle using the current state of the canvas. 
+ * @param x - Number - The top left x coordinate.
+ * @param y - Number - The top left y coordinate.
+ * @param width - Number - The width of the rectangle.
+ * @param height - Number - The height of the rectangle.
+ * @param radius - Number - The corner radius.
+ * @param fill - [Boolean] - Whether to fill the rectangle. Defaults to false.
+ * @param stroke - [Boolean] - Whether to stroke the rectangle. Defaults to true.
+ */
+function roundRect(x, y, width, height, radius, fill, stroke) {
+    if(typeof fill === "undefined") {
+        fill = false;
+    }
+    if(typeof stroke == "undefined" ) {
+        stroke = true;
+    }
+
+    context.beginPath();
+    context.moveTo(x + radius, y);
+    context.lineTo(x + width - radius, y);
+    context.quadraticCurveTo(x + width, y, x + width, y + radius);
+    context.lineTo(x + width, y + height - radius);
+    context.quadraticCurveTo(x + width, y + height, x + width - radius, y + height);
+    context.lineTo(x + radius, y + height);
+    context.quadraticCurveTo(x, y + height, x, y + height - radius);
+    context.lineTo(x, y + radius);
+    context.quadraticCurveTo(x, y, x + radius, y);
+    context.closePath();
+
+    if(stroke) {
+        context.stroke();
+    }
+    if(fill) {
+        context.fill();
+    }        
+}
+
 /* ------------------------------------------------------------------------ */
 
 //Game-related declarations.
@@ -378,8 +416,8 @@ function render() {
     } else {
         var rand, value;
 
-        for (i = 0; i < tileHeight; i++){
-            for (j = 0; j < tileWidth; j++){
+        for(i = 0; i < tileHeight; i++) {
+            for(j = 0; j < tileWidth; j++) {
                 rand = Math.floor(Math.random() * tileHeight * tileWidth);
                 value =  (currentMap[rand] === 0 ? 1 : 0);
                 context.drawImage(tileset, tileSize * value, 0, tileSize, tileSize, j * tileSize, i * tileSize, tileSize, tileSize); 
@@ -405,9 +443,9 @@ function showMessage(text, x, y, color, font){
 
 showMessage('Loading', canvas.width / 2, canvas.height / 2, '#EFEFEF', '18px Arial');
 
-for (i = 0; i < tileHeight; i++){
-    for (j = 0; j < tileWidth; j++){
-        if (checkpointTileMap[j + tileWidth * i] === 4){
+for(i = 0; i < tileHeight; i++) {
+    for(j = 0; j < tileWidth; j++) {
+        if(checkpointTileMap[j + tileWidth * i] === 4) {
             x = checkpointX = j;
             y = checkpointY = i;
         }
