@@ -348,8 +348,8 @@ var x = 0,
         patternMapMenu,
         patternMap1,
         patternMapTest,
-        patternMap2
-        patternMap5,
+        patternMap2,
+        patternMap5
     ],
     errorX = null,
     errorY = null,
@@ -615,9 +615,17 @@ function render() {
     }
 
     if(credits) {
-        context.fillStyle = 'rgba(239, 239, 239, 0.5)';
-        roundRect(20, 20, 200, 200, 20, true);
-        showMessage('CREDITS BLABLABLA', 40, 40, '#111111', '18px Arial');
+        context.fillStyle = 'rgba(239, 239, 239, 0.75)';
+        roundRect(20, 20, 470, 250, 20, true);
+        showMessage("CREDITS", 190, 45, '#111111', '30px Arial');
+        showMessage("Team: ", 40, 90, '#111111', '30px Arial');
+        showMessage("Alice Contal", 40, 120, '#111111', '18px Arial');
+        showMessage("Matthieu Chardon (Eldaryze)", 40, 140, '#111111', '18px Arial');
+        showMessage("Dimitri Belopopsky (ShadowMitia)", 40, 160, '#111111', '18px Arial');
+        showMessage("Big thanks to APOIL (apoil.info) ", 40, 190, '#111111', '18px Arial');
+        showMessage("for hosting a Real World Gathering! ", 40, 210, '#111111', '18px Arial');
+        showMessage("Press R to exit credits", 190, 260, '#111111', '15px Arial');
+
     } else {
         //Render the character
         context.fillStyle = '#FBF236';
