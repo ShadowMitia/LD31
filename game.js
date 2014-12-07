@@ -359,6 +359,7 @@ var x = 0,
     currentPattern = patternLevels[currentLevel].slice(0),
     checkpointTileMap = tileLevels[currentLevel].slice(0),
     checkpointPatternMap = patternLevels[currentLevel].slice(0),
+    credits = false,
     levelChange = false,
     levelChangeTime = 0,
     levelChangeCounter = 0,
@@ -378,7 +379,11 @@ function update(timeElapsed) {
         }
     }
 
-    if(!levelChange) {
+    if(credits) {
+        if(key['R'] !== null) {
+            credits = false;
+        }
+    } else if(!levelChange) {
         //Process inputs.
         var dx = 0,
             dy = 0;
@@ -501,7 +506,7 @@ function update(timeElapsed) {
                         checkpointX = x;
                         checkpointY = y;
                     } else if(currentMap[x + tileWidth * y] === 10) {
-                        alert('Game made for Ludum Dare 31\nTeam:\n');
+                        credits = true;
                     } 
                 } else { //The player cannot move. Notify him.
                     errorX = x + dx;
@@ -563,8 +568,7 @@ function render() {
     context.fillStyle = '#EFEFEF';
     context.fillRect(0, 0, width, height);
 
-    //Render the tiles.
-    if(!levelChange) {
+    if(!levelChange) { //Render the tiles.
         for(j = 0; j < tileHeight; j++) {
             for(i = 0; i < tileWidth; i++) {
                 tile = currentMap[i + tileWidth * j];
@@ -610,12 +614,18 @@ function render() {
         }
     }
 
-    //Render the character
-    context.fillStyle = '#FBF236';
-    context.beginPath();
-    context.arc(Math.floor((x + 0.5) * tileSize), Math.floor((y + 0.5) * tileSize), 5, 0, 2 * Math.PI);
-    context.fill();
-    context.stroke();
+    if(credits) {
+        context.fillStyle = 'rgba(239, 239, 239, 0.5)';
+        roundRect(20, 20, 200, 200, 20, true);
+        showMessage('CREDITS BLABLABLA', 40, 40, '#111111', '18px Arial');
+    } else {
+        //Render the character
+        context.fillStyle = '#FBF236';
+        context.beginPath();
+        context.arc(Math.floor((x + 0.5) * tileSize), Math.floor((y + 0.5) * tileSize), 5, 0, 2 * Math.PI);
+        context.fill();
+        context.stroke();
+    }
 }
 
 function showMessage(text, x, y, color, font){
@@ -672,43 +682,3 @@ tileset.addEventListener('load', function() {
 }, false);
 
 levelChangeSound.src = 'assets/levelChange.mp3';
-
-        /*var rand, value;
-        var tempMap = currentMap;
-        if (previousCounter == counter){
-          
-        for(j = 0; j < tileHeight; j++) {
-            for(i = 0; i < tileWidth; i++) {
-              
-                tile = tempMap[i + tileWidth * j];
-
-                if(tile === 1 && currentPattern[j + tileWidth * i] !== '') {
-                    switch(currentPattern[i + tileWidth * j][0]) {
-                        case 'g':
-                            tile = 5;
-                            break;
-                        case 'h':
-                            tile = 6;
-                            break;
-                        case 'd':
-                            tile = 7;
-                            break;
-                        case 'b':
-                            tile = 8;
-                            break;
-                    }
-                }
-              context.drawImage(tileset, tileSize * tile, 0, tileSize, tileSize, i * tileSize, j * tileSize, tileSize, tileSize);
-
-
-              
-              // if ( !(i == y && j == x)) {
-              //   rand = Math.floor(Math.random() * tileHeight * tileWidth);
-              //   value =  (tempMap[rand] === 0 ? 1 : 0);
-              //   context.drawImage(tileset, tileSize * value, 0, tileSize, tileSize, j * tileSize, i * tileSize, tileSize, tileSize); 
-              // } else {
-              //   context.drawImage(tileset, 0, 0, tileSize, tileSize, j * tileSize, i * tileSize, tileSize, tileSize);
-              // }
-              
-
-          }*/
