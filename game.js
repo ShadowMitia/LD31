@@ -185,9 +185,14 @@ var x = 0,
     currentPattern = patternLevels[currentLevel].slice(0),
     checkpointTileMap = tileLevels[currentLevel].slice(0),
     checkpointPatternMap = patternLevels[currentLevel].slice(0),
-    score = 0;
+    score = 0,
+    levelChange = false,
+    levelChangeEnded = false,
+    time = 0,
+    counter = 0;
 
 function update(timeElapsed) {
+  if (!levelChange){
     //Process inputs.
     var dx = 0,
         dy = 0;
@@ -276,13 +281,15 @@ function update(timeElapsed) {
                     //Check If all levels have been played.
                     if(currentLevel >= Math.min(tileLevels.length, patternLevels.length)) {
                         alert('YOU WON !');
+                    } else {
+                        levelChange = true;
+
+                        checkpointTileMap = tileLevels[currentLevel];
+                        checkpointPatternMap = patternLevels[currentLevel];
+
+                        currentMap = tileLevels[currentLevel].slice(0);
+                        currentPattern = patternLevels[currentLevel].slice(0);
                     }
-
-                    checkpointTileMap = tileLevels[currentLevel];
-                    checkpointPatternMap = patternLevels[currentLevel];
-
-                    currentMap = tileLevels[currentLevel].slice(0);
-                    currentPattern = patternLevels[currentLevel].slice(0);
                 } else { //The checkpoint is blue.
                     checkpointTileMap = currentMap.slice(0);
                     checkpointPatternMap = currentPattern.slice(0);
@@ -310,6 +317,18 @@ function update(timeElapsed) {
 
     //Clear the released keys queue.
     releasedKeys = [];
+  } else {
+    time += timeElapsed;
+    if (time > 5000){
+      time = 0;
+      counter++;
+    }
+  }
+  if (counter == 2 && levelChange){
+      levelChange = false;
+      levelChangeEnded = true;
+      counter = 0;
+  }
 }
 
 function render() {
@@ -320,48 +339,64 @@ function render() {
     context.fillRect(0, 0, width, height);
 
     //Render the tiles.
-    for(j = 0; j < tileHeight; j++) {
-        for(i = 0; i < tileWidth; i++) {
-            tile = currentMap[i + tileWidth * j];
+    if(!levelChange) {
+        for(j = 0; j < tileHeight; j++) {
+            for(i = 0; i < tileWidth; i++) {
+                tile = currentMap[i + tileWidth * j];
 
-            if(tile === 1 && currentPattern[i + tileWidth * j] !== '') {
-                switch(currentPattern[i + tileWidth * j][0]) {
-                    case 'g':
-                        tile = 5;
-                        break;
-                    case 'h':
-                        tile = 6;
-                        break;
-                    case 'd':
-                        tile = 7;
-                        break;
-                    case 'b':
-                        tile = 8;
-                        break;
+                if(tile === 1 && currentPattern[i + tileWidth * j] !== '') {
+                    switch(currentPattern[i + tileWidth * j][0]) {
+                        case 'g':
+                            tile = 5;
+                            break;
+                        case 'h':
+                            tile = 6;
+                            break;
+                        case 'd':
+                            tile = 7;
+                            break;
+                        case 'b':
+                            tile = 8;
+                            break;
+                    }
                 }
+                context.drawImage(tileset, tileSize * tile, 0, tileSize, tileSize, i * tileSize, j * tileSize, tileSize, tileSize);
             }
+        }
 
-            context.drawImage(tileset, tileSize * tile, 0, tileSize, tileSize, i * tileSize, j * tileSize, tileSize, tileSize);
+        //Render the red cross for error feedback.
+        if(errorX !== null && errorY !== null) {
+            context.drawImage(errorImage, errorX * tileSize, errorY * tileSize);
+        }
+    } else {
+        var rand, value;
+
+        for (i = 0; i < tileHeight; i++){
+            for (j = 0; j < tileWidth; j++){
+                rand = Math.floor(Math.random() * tileHeight * tileWidth);
+                value =  (currentMap[rand] === 0 ? 1 : 0);
+                context.drawImage(tileset, tileSize * value, 0, tileSize, tileSize, j * tileSize, i * tileSize, tileSize, tileSize); 
+            }
         }
     }
 
-    //Render the red cross for error feedback.
-    if(errorX !== null && errorY !== null) {
-        context.drawImage(errorImage, errorX * tileSize, errorY * tileSize);
-    }
-
     //Render the character
-    context.fillStyle = '#fbf236'; /*'#46E884';*/
+    context.fillStyle = '#FBF236';
     context.beginPath();
     context.arc(Math.floor((x + 0.5) * tileSize), Math.floor((y + 0.5) * tileSize), 5, 0, 2 * Math.PI);
     context.fill();
     context.stroke();
 }
 
+function showMessage(text, x, y, color, font){
+  context.font = font;
+  context.fillStyle = color;
+  context.fillText(text, x, y);
+}
+
 /* ------------------------------------------------------------------------ */
 
-context.font = '18px Arial';
-context.fillText('Loading...', canvas.width / 2, canvas.height / 2);
+showMessage("Loading", canvas.width / 2, canvas.height / 2, "#000000", "18px Arial");
 
 for (i = 0; i < tileHeight; i++){
     for (j = 0; j < tileWidth; j++){
