@@ -280,8 +280,8 @@ function update(timeElapsed) {
                 currentLevel++;
                 checkpointTileMap = tileLevels[currentLevel];
                 checkpointPatternMap = patternLevels[currentLevel];
-                currentMap = tileLevels[currentLevel];
-                currentPattern = patternLevels[currentPattern];
+                currentMap = tileLevels[currentLevel].slice(0);
+                currentPattern = patternLevels[currentLevel].slice(0);
                 checkpointX = x;
                 checkpointY = y;
 
