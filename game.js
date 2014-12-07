@@ -7,7 +7,7 @@ var canvas = document.getElementById('canvas'),
     tileAmount = tileWidth * tileHeight,
     width = tileWidth * tileSize,
     height = tileHeight * tileSize,
-    fps = 60,
+    fps = 30,
     minFps = 4;
 
 //Engine variables. Time is handled in milliseconds.
@@ -257,6 +257,7 @@ var x = 0,
         '', '', '', '', 'ggdddg', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
         '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', ''
     ],
+
     tileLevels = [
         tileMap1,
         tileMapMenu,
@@ -280,9 +281,7 @@ var x = 0,
     levelChange = false,
     levelChangeTime = 0,
     levelChangeCounter = 0,
-    levelChangeMap,
-    time = 0,
-    counter = 0;
+    levelChangeMap;
 
 function update(timeElapsed) {
     //Update inputs.
@@ -367,22 +366,22 @@ function update(timeElapsed) {
                         }
                     }
                 }
+            }
 
-                //Check Collisions. Only move if the player goes to a floor tile.
-                if(newTileMap[x + dx + tileWidth * (y + dy)] !== 1) {
-                    currentMap = newTileMap;
-                    currentPattern = newPatternMap;
+            //Check Collisions. Only move if the player goes to a floor tile.
+            if(newTileMap[x + dx + tileWidth * (y + dy)] !== 1) {
+                currentMap = newTileMap;
+                currentPattern = newPatternMap;
 
-                    x = x + dx;
-                    y = y + dy;
+                x = x + dx;
+                y = y + dy;
 
-                    errorX = null;
-                    errorY = null;
-
-                    //If a checkpoint is reached.
-                    if(currentMap[x + tileWidth * y] === 2 || currentMap[x + tileWidth * y] === 3) { //Blue or Red checkpoint.
-                        //Remove the old one.
-                        currentMap[checkpointX + tileWidth * checkpointY] = 0;
+                errorX = null;
+                errorY = null;
+                //If a checkpoint is reached.
+                if(currentMap[x + tileWidth * y] === 2 || currentMap[x + tileWidth * y] === 3) { //Blue or Red checkpoint.
+                    //Remove the old one.
+                    currentMap[checkpointX + tileWidth * checkpointY] = 0;
 
                         //If the checkpoint is red, change the level.
                         if(currentMap[x + tileWidth * y] === 3) {
@@ -414,7 +413,6 @@ function update(timeElapsed) {
                         currentMap[x + tileWidth * y] = 4;
                         checkpointX = x;
                         checkpointY = y;
-                    }
                 } else { //The player cannot move. Notify him.
                     errorX = x + dx;
                     errorY = y + dy;
@@ -552,14 +550,30 @@ for(i = 0; i < tileHeight; i++) {
 //Start the game loop once the assets are loaded.
 var tileset = new Image(),
     errorImage = new Image(),
-    errorSound = new Audio();
+    errorSound = new Audio(),
+    resetSound = new Audio(),
+    checkpointSound = new Audio(),
+    levelChangeSound  = new Audio();
+
+levelChangeSound.addEventListener('canplaythrough', function() {
+    checkpointSound.src = 'assets/checkpoint.mp3';
+}, false);
+
+checkpointSound.addEventListener('canplaythrough', function() {
+    resetSound.src = 'assets/reset.mp3';
+}, false);
+
+resetSound.addEventListener('canplaythrough', function() {
+    errorSound.src = 'assets/error.mp3';
+}, false);
 
 errorSound.addEventListener('canplaythrough', function() {
-    errorImage.src = 'error.png';
+    errorImage.src = 'assets/error.png';
 }, false);
 
 errorImage.addEventListener('load', function() {
-    tileset.src = 'tileset.png';
+    tileset.src = 'assets/tileset.png';
+    
 }, false);
 
 tileset.addEventListener('load', function() {
@@ -567,4 +581,44 @@ tileset.addEventListener('load', function() {
     requestAnimationFrame(onEnterFrame);
 }, false);
 
-errorSound.src = 'error.mp3';
+levelChangeSound.src = 'assets/levelChange.mp3';
+
+        /*var rand, value;
+        var tempMap = currentMap;
+        if (previousCounter == counter){
+          
+        for(j = 0; j < tileHeight; j++) {
+            for(i = 0; i < tileWidth; i++) {
+              
+                tile = tempMap[i + tileWidth * j];
+
+                if(tile === 1 && currentPattern[j + tileWidth * i] !== '') {
+                    switch(currentPattern[i + tileWidth * j][0]) {
+                        case 'g':
+                            tile = 5;
+                            break;
+                        case 'h':
+                            tile = 6;
+                            break;
+                        case 'd':
+                            tile = 7;
+                            break;
+                        case 'b':
+                            tile = 8;
+                            break;
+                    }
+                }
+              context.drawImage(tileset, tileSize * tile, 0, tileSize, tileSize, i * tileSize, j * tileSize, tileSize, tileSize);
+
+
+              
+              // if ( !(i == y && j == x)) {
+              //   rand = Math.floor(Math.random() * tileHeight * tileWidth);
+              //   value =  (tempMap[rand] === 0 ? 1 : 0);
+              //   context.drawImage(tileset, tileSize * value, 0, tileSize, tileSize, j * tileSize, i * tileSize, tileSize, tileSize); 
+              // } else {
+              //   context.drawImage(tileset, 0, 0, tileSize, tileSize, j * tileSize, i * tileSize, tileSize, tileSize);
+              // }
+              
+
+          }*/

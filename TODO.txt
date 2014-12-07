@@ -1,5 +1,2 @@
 > FAIRE LES NIVEAUX.
-> Son checkpoint.
-> Gérer pression maintenue.
 > Tutorial.
-> Reset sound & visual effect.
