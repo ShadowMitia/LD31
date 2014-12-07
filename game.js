@@ -226,9 +226,14 @@ var x = 0,
     currentPattern = patternLevels[currentLevel].slice(0),
     checkpointTileMap = tileLevels[currentLevel].slice(0),
     checkpointPatternMap = patternLevels[currentLevel].slice(0),
-    score = 0;
+    score = 0,
+    levelChange = false,
+    levelChangeEnded = false,
+    time = 0,
+    counter = 0;
 
 function update(timeElapsed) {
+  if (!levelChange){
     //Process inputs.
     var dx = 0,
         dy = 0;
@@ -313,6 +318,7 @@ function update(timeElapsed) {
                 //Activate the new checkpoint
                 currentMap[x + tileWidth * y] = 3;
                 currentLevel++;
+                levelChange = true;
                 checkpointTileMap = tileLevels[currentLevel];
                 checkpointPatternMap = patternLevels[currentLevel];
                 currentMap = tileLevels[currentLevel].slice(0);
@@ -337,6 +343,18 @@ function update(timeElapsed) {
 
     //Clear the released keys queue.
     releasedKeys = [];
+  } else {
+    time += timeElapsed;
+    if (time > 5000){
+      time = 0;
+      counter++;
+    }
+  }
+  if (counter == 2 && levelChange){
+      levelChange = false;
+      levelChangeEnded = true;
+      counter = 0;
+  }
 }
 
 function render() {
@@ -344,24 +362,37 @@ function render() {
     context.fillRect(0, 0, width, height);
 
     var j, i, tile;
-
-    for(j = 0; j < tileHeight; j++) {
+    if (!levelChange) {
+      for(j = 0; j < tileHeight; j++) {
         for(i = 0; i < tileWidth; i++) {
             tile = currentMap[i + tileWidth * j];
-
             context.drawImage(tileset, tileSize * tile, 0, tileSize, tileSize, i * tileSize, j * tileSize, tileSize, tileSize);
         }
-    }
+      }
 
     if(errorX !== null && errorY !== null) {
         context.drawImage(errorImage, errorX * tileSize, errorY * tileSize);
     }
+  } else if (levelChange){
+        for (i = 0; i < tileHeight; i++){
+          for (j = 0; j < tileWidth; j++){
+            rand = Math.floor(Math.random() * tileHeight * tileWidth);
+            value =  (currentMap[rand] === 0 ? 1 : 0);
+            context.drawImage(tileset, tileSize * value, 0, tileSize, tileSize, j * tileSize, i * tileSize, tileSize, tileSize); 
+          }
+      }
+  }
+
+
+    // draw the player
 
     context.fillStyle = '#46E884'
     context.beginPath();
     context.arc(Math.floor((x + 0.5) * tileSize), Math.floor((y + 0.5) * tileSize), 5, 0, 2 * Math.PI);
     context.fill();
     context.stroke();
+
+
 }
 
 
