@@ -395,11 +395,17 @@ function render() {
 
 }
 
+function showMessage(text, x, y, color, font){
+  context.font = font;
+  context.fillStyle = color;
+  context.fillText(text, x, y);
+}
+
 
 /* ------------------------------------------------------------------------ */
 
-context.font = '18px Arial';
-context.fillText('Loading...', canvas.width / 2, canvas.height / 2);
+
+showMessage("Loading", canvas.width / 2, canvas.height / 2, "#000000", "18px Arial");
 
 for (i = 0; i < tileHeight; i++){
   for (j = 0; j < tileWidth; j++){
