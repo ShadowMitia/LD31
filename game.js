@@ -340,14 +340,12 @@ var x = 0,
     tileLevels = [
         tileMapMenu,
         tileMap1,
-        tileMapTest,
         tileMap2,
         tileMap5
     ],
     patternLevels = [
         patternMapMenu,
         patternMap1,
-        patternMapTest,
         patternMap2,
         patternMap5
     ],
