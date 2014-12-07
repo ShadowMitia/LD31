@@ -90,53 +90,107 @@ function initArray(size, value) {
 /* ------------------------------------------------------------------------ */
 
 //Game-related declarations.
-var x = 2,
-    y = 2,
-    tileMap = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-               1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-               1, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-               1, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-               1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-               1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-               1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-               1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-               1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-               1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-               1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-               1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-               1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-               1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-               1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-               1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-               1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-               1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-              ],
-    patternMap = ['', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
-                  '', '', '', '', 'bbhh', '', 'bbhh', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+var x = 0,
+    y = 0,
+    currentLevel = 0,
+    tileMap1 =    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+                  1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 
+                  1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 2, 1, 1, 
+                  1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 
+                  1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 0, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 
+                  1, 0, 1, 0, 0, 0, 0, 1, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 
+                  1, 0, 1, 0, 0, 0, 0, 1, 0, 1, 0, 1, '@', '@', '@', '@', '@', '@', 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 
+                  1, 0, 1, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1, 1, 0, 1, 1, 1, 0, 1, 0, 0, 0, 0, 1, 
+                  1, 0, 1, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 
+                  1, 0, 1, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 3, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 
+                  1, 0, 1, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 
+                  1, 0, 1, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 
+                  1, 0, 1, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 
+                  1, 0, 1, 0, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 
+                  1, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 1, 
+                  1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 
+                  1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 1, 
+                  1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+
+    patternMap1 = ['', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
                   '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
-                  '', '', '', '', '', 'hhbb', '', 'hhbb', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
-                  '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 'hbbh', 'bhhb', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                  '', 'bbhh', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 'ddddddbbbbbbgggggghhhhhh', 'dddddbbbbbbgggggghhhhhhd', 'ddddbbbbbbgggggghhhhhhdd', 'dddbbbbbbgggggghhhhhhddd', 'ddbbbbbbgggggghhhhhhdddd', 'dbbbbbbgggggghhhhhhddddd',  'bbbbbbgggggghhhhhhdddddd', '', '', '', '',
+                  '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 'hddddddbbbbbbgggggghhhhh', '', '', '', '',                                                                                                                              'bbbbbgggggghhhhhhddddddb', '', '', '', '',
+                  '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 'hhddddddbbbbbbgggggghhhh', '', '', '', '',                                                                                                                              'bbbbgggggghhhhhhddddddbb', '', '', '', '',
+                  '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 'hhhddddddbbbbbbgggggghhh', '', '', '', '',                                                                                                                              'bbbgggggghhhhhhddddddbbb', '', '', '', '',
+                  '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 'hhhhddddddbbbbbbgggggghh', '', '', '', '',                                                                                                                              'bbgggggghhhhhhddddddbbbb', '', '', '', '',
+                  '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 'hhhhhddddddbbbbbbggggggh', '', '', '', '',                                                                                                                              'bgggggghhhhhhddddddbbbbb', '', '', '', '',
                   '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
-                  '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
-                  '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
-                  '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
-                  '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
-                  '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
-                  '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
-                  '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                  '', '', '', '', '', '', '', '', '', '', '', 'gb-----hd', '', '', '', '', '', '', '', '', '', '', 'hhhhhhddddddbbbbbbgggggg', 'ghhhhhhddddddbbbbbbggggg', 'gghhhhhhddddddbbbbbbgggg', 'ggghhhhhhddddddbbbbbbggg', 'gggghhhhhhddddddbbbbbbgg', 'ggggghhhhhhddddddbbbbbbg',  'gggggghhhhhhddddddbbbbbb', '', '', '', '',
                   '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
                   '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
                   '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                  '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                  '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                  '', '', '', '', '', '', '', '', '', '', '', 'hbbh', '', 'bhhb', '', 'hbbh', '', 'bhhb', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
                   '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
                   '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
                  ],
+
+    tileMap2 =    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+                  1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 
+                  1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 3, 1, 1, 
+                  1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 
+                  1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 0, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 
+                  1, 0, 1, 0, 0, 0, 0, 1, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 
+                  1, 0, 1, 0, 0, 0, 0, 1, 0, 1, 0, 1, '@', '@', '@', '@', '@', '@', 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 
+                  1, 0, 1, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1, 1, 0, 1, 1, 1, 0, 1, 0, 0, 0, 0, 1, 
+                  1, 0, 1, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 
+                  1, 0, 1, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 2, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 
+                  1, 0, 1, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 
+                  1, 0, 1, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 
+                  1, 0, 1, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 
+                  1, 0, 1, 0, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 
+                  1, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 1, 
+                  1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 
+                  1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 1, 
+                  1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+
+    patternMap2 = ['', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                  '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                  '', 'bbhh', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 'ddddddbbbbbbgggggghhhhhh', 'dddddbbbbbbgggggghhhhhhd', 'ddddbbbbbbgggggghhhhhhdd', 'dddbbbbbbgggggghhhhhhddd', 'ddbbbbbbgggggghhhhhhdddd', 'dbbbbbbgggggghhhhhhddddd',  'bbbbbbgggggghhhhhhdddddd', '', '', '', '',
+                  '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 'hddddddbbbbbbgggggghhhhh', '', '', '', '',                                                                                                                              'bbbbbgggggghhhhhhddddddb', '', '', '', '',
+                  '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 'hhddddddbbbbbbgggggghhhh', '', '', '', '',                                                                                                                              'bbbbgggggghhhhhhddddddbb', '', '', '', '',
+                  '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 'hhhddddddbbbbbbgggggghhh', '', '', '', '',                                                                                                                              'bbbgggggghhhhhhddddddbbb', '', '', '', '',
+                  '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 'hhhhddddddbbbbbbgggggghh', '', '', '', '',                                                                                                                              'bbgggggghhhhhhddddddbbbb', '', '', '', '',
+                  '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 'hhhhhddddddbbbbbbggggggh', '', '', '', '',                                                                                                                              'bgggggghhhhhhddddddbbbbb', '', '', '', '',
+                  '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                  '', '', '', '', '', '', '', '', '', '', '', 'gb-----hd', '', '', '', '', '', '', '', '', '', '', 'hhhhhhddddddbbbbbbgggggg', 'ghhhhhhddddddbbbbbbggggg', 'gghhhhhhddddddbbbbbbgggg', 'ggghhhhhhddddddbbbbbbggg', 'gggghhhhhhddddddbbbbbbgg', 'ggggghhhhhhddddddbbbbbbg',  'gggggghhhhhhddddddbbbbbb', '', '', '', '',
+                  '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                  '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                  '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                  '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                  '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                  '', '', '', '', '', '', '', '', '', '', '', 'hbbh', '', 'bhhb', '', 'hbbh', '', 'bhhb', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                  '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                  '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                 ],
+
+    tileLevels = [
+      tileMap1,
+      tileMap2
+    ],
+
+    patternLevels = [
+      patternMap1,
+      patternMap2
+    ],
+    
     errorX = null,
     errorY = null,
     checkpointX = x,
     checkpointY = y,
-    checkpointTileMap = tileMap,
-    checkpointPatternMap = patternMap,
+    currentMap = tileLevels[currentLevel].slice(0),
+    currentPattern = patternLevels[currentLevel].slice(0),
+    checkpointTileMap = tileLevels[currentLevel].slice(0),
+    checkpointPatternMap = patternMap1[currentLevel].slice(0),
     score = 0;
+
 
 function update(timeElapsed) {
     //Process inputs.
@@ -145,11 +199,11 @@ function update(timeElapsed) {
 
     if(releasedKeys[0] === 'R') {
         //TODO Reset sound and visual effect.
-
         x = checkpointX;
         y = checkpointY;
-        tileMap = checkpointTileMap;
-        patternMap = checkpointPatternMap;
+        currentMap = checkpointTileMap.slice(0);
+        patternMap1 = checkpointPatternMap.slice(0);
+
     } else if(releasedKeys[0] === '&') { //Up arrow.
         dy = -1;
     } else if(releasedKeys[0] === '(') { //Down arrow.
@@ -170,34 +224,34 @@ function update(timeElapsed) {
         for(j = 0; j < tileHeight; j++) { //Loop though the height.
             for(i = 0; i < tileWidth; i++) { //Loop though the width.
                 index = i + j * tileWidth;
-                pattern = patternMap[index];
+                pattern = patternMap1[index];
                 movement = pattern[0];
                 pattern = pattern.slice(1, pattern.length);
 
                 if(pattern === '') { //In this case, the tile doesn't move.
-                    if(tileMap[index] !== 0) { //Write in the newTileMap array only if it is not a floor tile.
-                        newTileMap[index] = tileMap[index];
+                    if(currentMap[index] !== 0) { //Write in the newTileMap array only if it is not a floor tile.
+                        newTileMap[index] = currentMap[index];
                     }
                 } else {
                     switch(movement) { //Execute the first movement of the sequence.
                         case 'h': //One tile up.
-                            newTileMap[index - tileWidth] = tileMap[index];
+                            newTileMap[index - tileWidth] = currentMap[index];
                             newPatternMap[index - tileWidth] = pattern + movement;
                             break;
                         case 'b': //One tile down.
-                            newTileMap[index + tileWidth] = tileMap[index];
+                            newTileMap[index + tileWidth] = currentMap[index];
                             newPatternMap[index + tileWidth] = pattern + movement;
                             break;
                         case 'g': //One tile left.
-                            newTileMap[index - 1] = tileMap[index];
+                            newTileMap[index - 1] = currentMap[index];
                             newPatternMap[index - 1] = pattern + movement;
                             break;
                         case 'd': //One tile right.
-                            newTileMap[index + 1] = tileMap[index];
+                            newTileMap[index + 1] = currentMap[index];
                             newPatternMap[index + 1] = pattern + movement;
                             break;
                         case '-': //Stay in position.
-                            newTileMap[index] = tileMap[index];
+                            newTileMap[index] = currentMap[index];
                             newPatternMap[index] = pattern + movement;
                             break;
                     }
@@ -207,8 +261,8 @@ function update(timeElapsed) {
 
         //Check Collisions. Only move if the player goes to a floor tile.
         if(newTileMap[x + dx + tileWidth * (y + dy)] !== 1) {
-            tileMap = newTileMap;
-            patternMap = newPatternMap;
+            currentMap = newTileMap;
+            patternMap1 = newPatternMap;
 
             x = x + dx;
             y = y + dy;
@@ -217,18 +271,22 @@ function update(timeElapsed) {
             errorY = null;
 
             //If a checkpoint is reached.
-            if(tileMap[x + tileWidth * y] === 2) {
+            if(currentMap[x + tileWidth * y] === 2) {
                 //Remove the old one.
-                tileMap[checkpointX + tileWidth * checkpointY] = 0;
+                currentMap[checkpointX + tileWidth * checkpointY] = 0;
 
                 //Activate the new checkpoint
-                tileMap[x + tileWidth * y] = 3;
+                currentMap[x + tileWidth * y] = 3;
+                currentLevel++;
+                checkpointTileMap = tileLevels[currentLevel];
+                checkpointPatternMap = patternLevels[currentLevel];
+                currentMap = tileLevels[currentLevel];
+                currentPattern = patternLevels[currentPattern];
                 checkpointX = x;
                 checkpointY = y;
-                checkpointTileMap = tileMap;
-                checkpointPatternMap = patternMap;
+
             }
-        } else if(tileMap[x + dx + tileWidth * (y + dy)] === 0) {
+        } else if(currentMap[x + dx + tileWidth * (y + dy)] === 0) {
             errorX = x + dx;
             errorY = y + dy;
             errorSound.play();
@@ -238,7 +296,15 @@ function update(timeElapsed) {
                 errorY = null;
             }, 400);
         }
+
+        if (currentMap[x + tileWidth * y] === '@'){ // Getting the looot!!!!
+          currentMap[x + tileWidth * y] = '';
+          getLoot(20);
+        }
+
     }
+
+    document.getElementById("currentLevel").innerHTML = "Level: " + (currentLevel + 1);
 
     //Clear the released keys queue.
     releasedKeys = [];
@@ -252,7 +318,7 @@ function render() {
 
     for(j = 0; j < tileHeight; j++) {
         for(i = 0; i < tileWidth; i++) {
-            tile = tileMap[i + tileWidth * j];
+            tile = currentMap[i + tileWidth * j];
 
             context.drawImage(tileset, tileSize * tile, 0, tileSize, tileSize, i * tileSize, j * tileSize, tileSize, tileSize);
         }
@@ -269,19 +335,34 @@ function render() {
     context.stroke();
 }
 
+function getLoot(value){
+  score += value;
+  document.getElementById("score").innerHTML = "Score: " + score;
+}
+
+
 /* ------------------------------------------------------------------------ */
 
 context.font = '18px Arial';
 context.fillText('Loading...', canvas.width / 2, canvas.height / 2);
+
+for (i = 0; i < tileHeight; i++){
+  for (j = 0; j < tileWidth; j++){
+    if (checkpointTileMap[j + tileWidth * i] === 3){
+      x = checkpointX = j;
+      y = checkpointY = i;
+    }
+  }
+}
 
 //Start the game loop once the assets are loaded.
 var tileset = new Image(),
     errorImage = new Image(),
     errorSound = new Audio();
 
-errorSound.addEventListener('canplaythrough', function() {
+//errorSound.addEventListener('canplaythrough', function() {
     errorImage.src = 'error.png';
-}, false);
+//}, false);
 
 errorImage.addEventListener('load', function() {
     tileset.src = 'tileset.png';
@@ -292,4 +373,3 @@ tileset.addEventListener('load', function() {
     requestAnimationFrame(onEnterFrame);
 }, false);
 
-errorSound.src = 'error.wav';
