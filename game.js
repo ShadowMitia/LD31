@@ -16,8 +16,15 @@ var requestAnimationFrame = window.requestAnimationFrame
                             || window.webkitRequestAnimationFrame
                             || window.msRequestAnimationFrame,
     body = document.getElementsByTagName('body')[0],
-    keys = {}
-    releasedKeys = [],
+    keys = {},
+    key = {
+        '%': null, //Left arrow.
+        '&': null, //Up arrow.
+        "'": null, //Right arrow.
+        '(': null, //Down arrow.
+        'R': null
+    },
+    keyTime = 120,
     mouse = {},
     click = null,
     time = 0, //Time elapsed in in-game milliseconds.
@@ -38,7 +45,6 @@ body.addEventListener('keydown', function(event) {
 
 body.addEventListener('keyup', function(event) {
     keys[String.fromCharCode(event.which)] = false;
-    releasedKeys.push(String.fromCharCode(event.which));
 }, false);
 
 canvas.addEventListener('mousemove', function(event) {
@@ -131,6 +137,46 @@ function roundRect(x, y, width, height, radius, fill, stroke) {
 var x = 0,
     y = 0,
     currentLevel = 0,
+    tileMapMenu = [
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 1, 0, 1, 1, 1, 0, 1, 0, 0, 0, 1, 1, 1,
+        1, 1, 1, 0, 1, 1, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1,
+        1, 1, 1, 0, 1, 0, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 0, 1, 0, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 1, 0, 0,
+        0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 1, 1, 1, 0, 1, 0, 0, 0, 1, 1, 1, 0, 0, 1, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 0, 1, 0, 1, 0, 0, 1, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 1, 0, 0, 1, 1, 1, 0, 1, 1, 0, 0, 1, 1, 1, 0, 1, 1, 1, 0, 0, 1, 1,
+        0, 0, 3, 0, 0, 1, 0, 0, 0, 1, 1, 1, 0, 1, 1, 0, 0, 1, 0, 1, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0,
+        0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 0, 1, 0, 1, 1, 1, 0, 1, 1, 0, 0, 1, 1, 1, 0, 0, 1, 0, 0, 1, 1, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    ],
+    patternMapMenu = [
+        '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+        '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+        '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+        '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+        '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+        '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+        '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+        '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+        '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+        '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+        '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+        '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+        '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+        '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+        '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+        '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+        '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+        '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', ''
+    ],
     tileMapTest = [
         1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
         1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
@@ -175,13 +221,13 @@ var x = 0,
         1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
         1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 3, 1, 1, 
         1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 0, 1, 0, 1, 1, 
-        1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 
+        1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, /*0*/4, 1, 1, 
         1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 0, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 
         1, 0, 1, 1, 0, 0, 1, 1, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 
         1, 0, 1, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 
         1, 0, 1, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1, 1, 0, 1, 1, 1, 0, 1, 0, 0, 0, 0, 1, 
         1, 0, 1, 0, 1, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 
-        1, 0, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 4, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 
+        1, 0, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, /*4*/0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 
         1, 0, 1, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 
         1, 0, 1, 0, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 
         1, 0, 1, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 
@@ -212,10 +258,14 @@ var x = 0,
         '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', ''
     ],
     tileLevels = [
+        tileMap1,
+        tileMapMenu,
         tileMapTest,
         tileMap1
     ],
     patternLevels = [
+        patternMap1,
+        patternMapMenu,
         patternMapTest,
         patternMap1
     ],
@@ -227,148 +277,193 @@ var x = 0,
     currentPattern = patternLevels[currentLevel].slice(0),
     checkpointTileMap = tileLevels[currentLevel].slice(0),
     checkpointPatternMap = patternLevels[currentLevel].slice(0),
-    score = 0,
     levelChange = false,
-    levelChangeEnded = false,
+    levelChangeTime = 0,
+    levelChangeCounter = 0,
+    levelChangeMap,
     time = 0,
     counter = 0;
 
 function update(timeElapsed) {
+    //Update inputs.
+    for(keyName in key) {
+        if(keys[keyName]) {
+            if(key[keyName] === null) {
+                key[keyName] = keyTime;
+            } else {
+                key[keyName] += timeElapsed;
+            }
+        } else {
+            key[keyName] = null;
+        }
+    }
+
     if(!levelChange) {
         //Process inputs.
         var dx = 0,
             dy = 0;
 
-        if(releasedKeys[0] === 'R') {
-            //TODO Reset sound and visual effect.
+        if(key['R'] !== null) {
             x = checkpointX;
             y = checkpointY;
             currentMap = checkpointTileMap.slice(0);
             currentPattern = checkpointPatternMap.slice(0);
-        } else if(releasedKeys[0] === '&') { //Up arrow.
-            dy = -1;
-        } else if(releasedKeys[0] === '(') { //Down arrow.
-            dy = 1;
-        } else if(releasedKeys[0] === '%') { //Left arrow.
+        } else if(key['%'] >= keyTime) { //Left arrow.
+            key['%'] -= keyTime;
             dx = -1;
-        } else if(releasedKeys[0] === "'") { //Right arrow.
+        } else if(key['&'] >= keyTime) { //Up arrow.
+            key['&'] -= keyTime;
+            dy = -1;
+        } else if(key["'"] >= keyTime) { //Right arrow.
+            key["'"] -= keyTime;
             dx = 1;
+        } else if(key['('] >= keyTime) { //Down arrow.
+            key['('] -= keyTime;
+            dy = 1;
         }
 
         //If the player wants to move, calculate the new map.
         if(dx !== 0  || dy !== 0) {
-            var i, j, index, pattern, movement,
-                newTileMap = initArray(tileAmount, 0),
-                newPatternMap = initArray(tileAmount, '');
+            if((x + dx) >= 0 && (y + dy) >= 0 && (x + dx) < tileWidth && (y + dy) < tileHeight) {
+                var i, j, index, pattern, movement,
+                    newTileMap = initArray(tileAmount, 0),
+                    newPatternMap = initArray(tileAmount, '');
 
-            //Process labyrinth movements.
-            for(j = 0; j < tileHeight; j++) { //Loop though the height.
-                for(i = 0; i < tileWidth; i++) { //Loop though the width.
-                    index = i + j * tileWidth;
-                    pattern = currentPattern[index];
-                    movement = pattern[0];
-                    pattern = pattern.slice(1, pattern.length);
+                //Process labyrinth movements.
+                for(j = 0; j < tileHeight; j++) { //Loop though the height.
+                    for(i = 0; i < tileWidth; i++) { //Loop though the width.
+                        index = i + j * tileWidth;
+                        pattern = currentPattern[index];
+                        movement = pattern[0];
+                        pattern = pattern.slice(1, pattern.length);
 
-                    if(pattern === '') { //In this case, the tile doesn't move.
-                        if(currentMap[index] !== 0) { //Write in the newTileMap array only if it is not a floor tile.
-                            newTileMap[index] = currentMap[index];
-                        }
-                    } else {
-                        switch(movement) { //Execute the first movement of the sequence.
-                            case 'h': //One tile up.
-                                newTileMap[index - tileWidth] = currentMap[index];
-                                newPatternMap[index - tileWidth] = pattern + movement;
-                                break;
-                            case 'b': //One tile down.
-                                newTileMap[index + tileWidth] = currentMap[index];
-                                newPatternMap[index + tileWidth] = pattern + movement;
-                                break;
-                            case 'g': //One tile left.
-                                newTileMap[index - 1] = currentMap[index];
-                                newPatternMap[index - 1] = pattern + movement;
-                                break;
-                            case 'd': //One tile right.
-                                newTileMap[index + 1] = currentMap[index];
-                                newPatternMap[index + 1] = pattern + movement;
-                                break;
-                            case '-': //Stay in position.
+                        if(pattern === '') { //In this case, the tile doesn't move.
+                            if(currentMap[index] !== 0) { //Write in the newTileMap array only if it is not a floor tile.
                                 newTileMap[index] = currentMap[index];
-                                newPatternMap[index] = pattern + movement;
-                                break;
-                        }
-                    }
-                }
-            }
-
-            //Check Collisions. Only move if the player goes to a floor tile.
-            if(newTileMap[x + dx + tileWidth * (y + dy)] !== 1) {
-                currentMap = newTileMap;
-                currentPattern = newPatternMap;
-
-                x = x + dx;
-                y = y + dy;
-
-                errorX = null;
-                errorY = null;
-
-                //If a checkpoint is reached.
-                if(currentMap[x + tileWidth * y] === 2 || currentMap[x + tileWidth * y] === 3) { //Blue or Red checkpoint.
-                    //Remove the old one.
-                    currentMap[checkpointX + tileWidth * checkpointY] = 0;
-
-                    //If the checkpoint is red, change the level.
-                    if(currentMap[x + tileWidth * y] === 3) {
-                        currentLevel++;
-
-                        //Check If all levels have been played.
-                        if(currentLevel >= Math.min(tileLevels.length, patternLevels.length)) {
-                            alert('YOU WON !');
+                            }
                         } else {
-                            levelChange = true;
-                            //Update the level display.
-                            document.getElementById("currentLevel").innerHTML = "Level: " + (currentLevel + 1);
-
-                            checkpointTileMap = tileLevels[currentLevel];
-                            checkpointPatternMap = patternLevels[currentLevel];
-
-                            currentMap = tileLevels[currentLevel].slice(0);
-                            currentPattern = patternLevels[currentLevel].slice(0);
+                            switch(movement) { //Execute the first movement of the sequence.
+                                case 'h': //One tile up.
+                                    newTileMap[index - tileWidth] = currentMap[index];
+                                    newPatternMap[index - tileWidth] = pattern + movement;
+                                    break;
+                                case 'b': //One tile down.
+                                    newTileMap[index + tileWidth] = currentMap[index];
+                                    newPatternMap[index + tileWidth] = pattern + movement;
+                                    break;
+                                case 'g': //One tile left.
+                                    newTileMap[index - 1] = currentMap[index];
+                                    newPatternMap[index - 1] = pattern + movement;
+                                    break;
+                                case 'd': //One tile right.
+                                    newTileMap[index + 1] = currentMap[index];
+                                    newPatternMap[index + 1] = pattern + movement;
+                                    break;
+                                case '-': //Stay in position.
+                                    newTileMap[index] = currentMap[index];
+                                    newPatternMap[index] = pattern + movement;
+                                    break;
+                            }
                         }
-                    } else { //The checkpoint is blue.
-                        checkpointTileMap = currentMap.slice(0);
-                        checkpointPatternMap = currentPattern.slice(0);
                     }
-
-                    //Activate the new checkpoint
-                    currentMap[x + tileWidth * y] = 4;
-                    checkpointX = x;
-                    checkpointY = y;
                 }
-            } else { //The player cannot move. Notify him.
-                errorX = x + dx;
-                errorY = y + dy;
-                errorSound.play();
 
-                setTimeout(function() {
+                //Check Collisions. Only move if the player goes to a floor tile.
+                if(newTileMap[x + dx + tileWidth * (y + dy)] !== 1) {
+                    currentMap = newTileMap;
+                    currentPattern = newPatternMap;
+
+                    x = x + dx;
+                    y = y + dy;
+
                     errorX = null;
                     errorY = null;
-                }, 400);
+
+                    //If a checkpoint is reached.
+                    if(currentMap[x + tileWidth * y] === 2 || currentMap[x + tileWidth * y] === 3) { //Blue or Red checkpoint.
+                        //Remove the old one.
+                        currentMap[checkpointX + tileWidth * checkpointY] = 0;
+
+                        //If the checkpoint is red, change the level.
+                        if(currentMap[x + tileWidth * y] === 3) {
+                            currentLevel++;
+
+                            //Check If all levels have been played.
+                            if(currentLevel >= Math.min(tileLevels.length, patternLevels.length)) {
+                                alert('YOU WON !');
+                            } else {
+                                levelChange = true;
+                                levelChangeTime = 0;
+                                levelChangeCounter = 0;
+                                levelChangeMap = currentMap.slice(0);
+                                //Update the level display.
+                                document.getElementById("currentLevel").innerHTML = "Level: " + (currentLevel + 1);
+
+                                checkpointTileMap = tileLevels[currentLevel];
+                                checkpointPatternMap = patternLevels[currentLevel];
+
+                                currentMap = tileLevels[currentLevel].slice(0);
+                                currentPattern = patternLevels[currentLevel].slice(0);
+                            }
+                        } else { //The checkpoint is blue.
+                            checkpointTileMap = currentMap.slice(0);
+                            checkpointPatternMap = currentPattern.slice(0);
+                        }
+
+                        //Activate the new checkpoint
+                        currentMap[x + tileWidth * y] = 4;
+                        checkpointX = x;
+                        checkpointY = y;
+                    }
+                } else { //The player cannot move. Notify him.
+                    errorX = x + dx;
+                    errorY = y + dy;
+                    errorSound.play();
+
+                    setTimeout(function() {
+                        errorX = null;
+                        errorY = null;
+                    }, 400);
+                }
+            } else {
+                errorSound.play();
             }
         }
-
-        //Clear the released keys queue.
-        releasedKeys = [];
     } else {
-        time += timeElapsed;
-        if(time > 5000) {
-            time = 0;
-            counter++;
+        var rand1, rand2, temp;
+
+        levelChangeTime += timeElapsed;
+
+        while(levelChangeTime > 5) {
+            rand1 = Math.floor(Math.random() * tileAmount);
+
+            rand2 = Math.floor(Math.random() * 2);
+            if(rand2 === 0) {
+                rand2 = -1;
+            }
+
+            if(Math.random() < 0.5) {
+                rand2 += rand1;
+            } else {
+                rand2 = rand1 + rand2 * tileWidth;
+            }
+            
+            if(rand2 < 0) {
+                rand2 += tileAmount;
+            } else if(rand2 >= tileAmount) {
+                rand2 -= tileAmount;
+            }
+            
+            temp = levelChangeMap[rand1];
+            levelChangeMap[rand1] = levelChangeMap[rand2];
+            levelChangeMap[rand2] = temp;
+
+            levelChangeTime -= 5;
+            levelChangeCounter += 1;
         }
 
-        if(counter == 2) {
-            levelChange = false;
-            levelChangeEnded = true;
-            counter = 0;
+        if(levelChangeCounter > (3 * 200)) {
+            levelChange = false
         }
     }
 }
@@ -417,13 +512,12 @@ function render() {
             context.drawImage(errorImage, errorX * tileSize, errorY * tileSize);
         }
     } else {
-        var rand, value;
+        for(j = 0; j < tileHeight; j++) {
+            for(i = 0; i < tileWidth; i++) {
+                tile = levelChangeMap[i + tileWidth * j];
 
-        for(i = 0; i < tileHeight; i++) {
-            for(j = 0; j < tileWidth; j++) {
-                rand = Math.floor(Math.random() * tileHeight * tileWidth);
-                value =  (currentMap[rand] === 0 ? 1 : 0);
-                context.drawImage(tileset, tileSize * value, 0, tileSize, tileSize, j * tileSize, i * tileSize, tileSize, tileSize); 
+                //Draw the tile.
+                context.drawImage(tileset, tileSize * tile, 0, tileSize, tileSize, i * tileSize, j * tileSize, tileSize, tileSize);
             }
         }
     }

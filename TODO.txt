@@ -1,8 +1,5 @@
 > FAIRE LES NIVEAUX.
-> Animations ?
-> Musique/bruitages.
-
-- Niveaux à plusieurs couches.
-- Gestion de la manette.
-- Empêcher le fait de pouvoir marcher à travers les murs.
-- Format fichier audio firefox.
+> Son checkpoint.
+> Gérer pression maintenue.
+> Tutorial.
+> Reset sound & visual effect.
