@@ -136,7 +136,7 @@ function roundRect(x, y, width, height, radius, fill, stroke) {
 //Game-related declarations.
 var x = 0,
     y = 0,
-    currentLevel = 0,
+    currentLevel = 3,
 
     tileMap1 = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
                    1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
