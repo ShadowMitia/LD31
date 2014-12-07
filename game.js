@@ -225,7 +225,7 @@ var x = 0,
     currentMap = tileLevels[currentLevel].slice(0),
     currentPattern = patternLevels[currentLevel].slice(0),
     checkpointTileMap = tileLevels[currentLevel].slice(0),
-    checkpointPatternMap = patternMap1[currentLevel].slice(0),
+    checkpointPatternMap = patternLevels[currentLevel].slice(0),
     score = 0;
 
 function update(timeElapsed) {
@@ -238,8 +238,7 @@ function update(timeElapsed) {
         x = checkpointX;
         y = checkpointY;
         currentMap = checkpointTileMap.slice(0);
-        patternMap1 = checkpointPatternMap.slice(0);
-
+        currentPattern = checkpointPatternMap.slice(0);
     } else if(releasedKeys[0] === '&') { //Up arrow.
         dy = -1;
     } else if(releasedKeys[0] === '(') { //Down arrow.
@@ -260,7 +259,7 @@ function update(timeElapsed) {
         for(j = 0; j < tileHeight; j++) { //Loop though the height.
             for(i = 0; i < tileWidth; i++) { //Loop though the width.
                 index = i + j * tileWidth;
-                pattern = patternMap1[index];
+                pattern = currentPattern[index];
                 movement = pattern[0];
                 pattern = pattern.slice(1, pattern.length);
 
@@ -298,7 +297,7 @@ function update(timeElapsed) {
         //Check Collisions. Only move if the player goes to a floor tile.
         if(newTileMap[x + dx + tileWidth * (y + dy)] !== 1) {
             currentMap = newTileMap;
-            patternMap1 = newPatternMap;
+            currentPattern = newPatternMap;
 
             x = x + dx;
             y = y + dy;
