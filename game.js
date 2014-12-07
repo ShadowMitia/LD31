@@ -348,6 +348,7 @@ function render() {
             for(i = 0; i < tileWidth; i++) {
                 tile = currentMap[i + tileWidth * j];
 
+                //Use a tile with an arrow when the block is moving.
                 if(tile === 1 && currentPattern[i + tileWidth * j] !== '') {
                     switch(currentPattern[i + tileWidth * j][0]) {
                         case 'g':
@@ -364,6 +365,8 @@ function render() {
                             break;
                     }
                 }
+
+                //Draw the tile.
                 context.drawImage(tileset, tileSize * tile, 0, tileSize, tileSize, i * tileSize, j * tileSize, tileSize, tileSize);
             }
         }
