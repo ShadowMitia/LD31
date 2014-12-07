@@ -372,4 +372,3 @@ tileset.addEventListener('load', function() {
     lastTime = new Date().getTime();
     requestAnimationFrame(onEnterFrame);
 }, false);
-
