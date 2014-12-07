@@ -90,12 +90,12 @@ function initArray(size, value) {
 /* ------------------------------------------------------------------------ */
 
 //Game-related declarations.
-var x = Math.floor(tileWidth / 2),
-    y = Math.floor(tileHeight / 2),
-    tileMap = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-               1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-               1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-               1, 1, 1, 1, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 0, 0, 0, 0, 1,
+var x = 3,
+    y = 1,
+    tileMap = [0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+               0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+               0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+               0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 0, 0, 0, 0, 1,
                1, 0, 0, 0, 0, 1, 2, 1, 0, 0, 2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 1, 1, 0, 0, 0, 0, 1,
                1, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 1, 0, 0, 0, 0, 1,
                1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 1, 0, 0, 0, 0, 0, 1,
@@ -112,9 +112,9 @@ var x = Math.floor(tileWidth / 2),
                1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
               ],
     patternMap = ['', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
-                  '', 'ddbbgghh', 'dbbgghhd', 'bbgghhdd', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
-                  '', 'hddbbggh', '', 'bgghhddb', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
-                  '', 'hhddbbgg', 'ghhddbbg', 'gghhddbb', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                  '', 'dbgh', 'bghd', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                  '', 'hdbg', 'ghdb', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                  '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
                   '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '-d-d-d-b-b-g-g-g-h-h', '', '-d-b-b-g-g-g-h-h-d-d', 'b-b-g-g-g-h-h-d-d-d-', '', '', '', '', '', '',
                   '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '-h-d-d-d-b-b-g-g-g-h', '', '', '', '', '', '', '', '', '',
                   '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '-h-h-d-d-d-b-b-g-g-g', '', 'g-g-h-h-d-d-d-b-b-g-', '-g-g-g-h-h-d-d-d-b-b', '', '', '', '', '', '',
@@ -132,6 +132,10 @@ var x = Math.floor(tileWidth / 2),
                  ],
     errorX = null,
     errorY = null,
+    checkpointX = x,
+    checkpointY = y,
+    checkpointTileMap = tileMap,
+    checkpointPatternMap = patternMap,
     score = 0;
 
 function update(timeElapsed) {
@@ -139,7 +143,14 @@ function update(timeElapsed) {
     var dx = 0,
         dy = 0;
 
-    if(releasedKeys[0] === '&') { //Up arrow.
+    if(releasedKeys[0] === 'R') {
+        //TODO Reset sound and visual effect.
+
+        x = checkpointX;
+        y = checkpointY;
+        tileMap = checkpointTileMap;
+        patternMap = checkpointPatternMap;
+    } else if(releasedKeys[0] === '&') { //Up arrow.
         dy = -1;
     } else if(releasedKeys[0] === '(') { //Down arrow.
         dy = 1;
@@ -195,7 +206,7 @@ function update(timeElapsed) {
         }
 
         //Check Collisions. Only move if the player goes to a floor tile.
-        if(newTileMap[x + dx + tileWidth * (y + dy)] === 0) {
+        if(newTileMap[x + dx + tileWidth * (y + dy)] !== 1) {
             tileMap = newTileMap;
             patternMap = newPatternMap;
 
@@ -204,6 +215,19 @@ function update(timeElapsed) {
 
             errorX = null;
             errorY = null;
+
+            //If a checkpoint is reached.
+            if(tileMap[x + tileWidth * y] === 2) {
+                //Remove the old one.
+                tileMap[checkpointX + tileWidth * checkpointY] = 0;
+
+                //Activate the new checkpoint
+                tileMap[x + tileWidth * y] = 3;
+                checkpointX = x;
+                checkpointY = y;
+                checkpointTileMap = tileMap;
+                checkpointPatternMap = patternMap;
+            }
         } else if(tileMap[x + dx + tileWidth * (y + dy)] === 0) {
             errorX = x + dx;
             errorY = y + dy;
