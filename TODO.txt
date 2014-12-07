@@ -1,5 +1,4 @@
 > FAIRE LES NIVEAUX.
-> Système de checkpoints + reset button.
 > Animations ?
 > Musique/bruitages.
 
