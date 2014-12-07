@@ -1,11 +1,11 @@
 h1 {
 	color: #EFEFEF;
 	text-align: center;
-	font-size: 510%;
+	font-size: 4em;
 }
 
 body  {
-	background-color: #555555;
+	background-color: #111111;
 }
 
 #canvas {
@@ -14,14 +14,17 @@ body  {
     height: 288px;
     margin: auto;
     display: block;
-    border: 50px solid #DDDDDD;
+    border: 50px solid #EFEFEF;
     border-radius: 25px;
 }
 
 #score, #currentLevel, #info_joueur {
-	width: 50%;
-	color: white;
-	background-color: #111111;
+	width: 25%;
+    position: relative;
+    bottom: 40px;
+	color: #111111;
+    font-size: 1.2em;
+	background-color: #EFEFEF;
 	text-align: center;
 	display: block;
 	margin: auto;
