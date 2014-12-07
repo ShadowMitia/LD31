@@ -555,6 +555,12 @@ function render() {
             }
         }
         */
+       
+       for (i = 0; i < tileHeight; i++){
+        for (j = 0; j < tileWidth; j++){
+          context.drawImage(tileset, tileSize * (i % 2), 0, tileSize, tileSize, j * tileSize, i * tileSize, tileSize, tileSize); 
+        }
+       }
         
         for (k = 0; k < 10; k++){
           var randX = Math.floor(Math.random() * tileWidth);
@@ -598,14 +604,23 @@ for(i = 0; i < tileHeight; i++) {
 //Start the game loop once the assets are loaded.
 var tileset = new Image(),
     errorImage = new Image(),
-    errorSound = new Audio();
+    errorSound = new Audio(),
+    resetSound = new Audio(),
+    checkpointSound = new Audio(),
+    newLevelSound  = new Audio();
 
-errorSound.addEventListener('canplaythrough', function() {
-    errorImage.src = 'error.png';
+  errorSound.addEventListener('canplaythrough', function() {
+    errorSound.src = 'Assets/error.mp3';
 }, false);
 
+
 errorImage.addEventListener('load', function() {
-    tileset.src = 'tileset.png';
+    errorImage.src = 'Assets/error.png';
+    
+}, false);
+
+tileset.addEventListener('load', function(){
+  tileset.src = 'Assets/tileset.png';
 }, false);
 
 tileset.addEventListener('load', function() {
@@ -613,4 +628,17 @@ tileset.addEventListener('load', function() {
     requestAnimationFrame(onEnterFrame);
 }, false);
 
-errorSound.src = 'error.mp3';
+resetSound.addEventListener('canplaythrough', function() { 
+    resetSound.src = "Assets/Reset.mp3";
+}, false);
+
+  checkpointSound.addEventListener('canplaythrough', function() {
+    checkpointSound.src = "Assets/Checkpoint.mp3";
+  }, false);
+
+  newLevelSound.addEventListener('canplaythrough', function () {
+    newLevelSound.src = "Assets/NewLevel.mp3";
+  }, false);
+
+
+
