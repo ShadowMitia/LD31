@@ -694,19 +694,26 @@ function render() {
         }
     }
 
-    if(credits) {
+    if(win) {
+        context.fillStyle = 'rgba(239, 239, 239, 0.75)';
+        roundRect(60, 60, 390, 170, 20, true);
+        showMessage("YOU WON", 180, 100, '#111111', '30px Arial');
+        showMessage("Thanks for Playing!", 170, 140, '#111111', '20px Arial');
+        showMessage("Wololo Wololo Wololo Wololo Wololo", 90, 180, '#111111', '20px Arial');
+        showMessage("Press R to restart", 200, 220, '#111111', '15px Arial');
+    } else if(credits) {
         context.fillStyle = 'rgba(239, 239, 239, 0.75)';
         roundRect(20, 20, 470, 250, 20, true);
-        showMessage("CREDITS", 190, 45, '#111111', '30px Arial');
-        showMessage("Team: ", 40, 90, '#111111', '30px Arial');
-        showMessage("Alice Contal", 40, 120, '#111111', '18px Arial');
-        showMessage("Matthieu Chardon (Eldaryze)", 40, 140, '#111111', '18px Arial');
-        showMessage("Dimitri Belopopsky (ShadowMitia)", 40, 160, '#111111', '18px Arial');
-        showMessage("Big thanks to APOIL (apoil.info) ", 40, 190, '#111111', '18px Arial');
-        showMessage("for hosting a Real World Gathering! ", 40, 210, '#111111', '18px Arial');
+        showMessage("CREDITS", 190, 50, '#111111', '30px Arial');
+        showMessage("Made in 48h for Ludum Dare 31.", 40, 80, '#111111', '14px Arial');
+        showMessage("Team: ", 40, 110, '#111111', '20px Arial');
+        showMessage("Alice Contal as Level Designer", 50, 130, '#111111', '14px Arial');
+        showMessage("Dimitri 'ShadowMitia' Belopopsky as Programmer & Sound Designer", 50, 150, '#111111', '14x Arial');
+        showMessage("Matthieu 'Eldaryze' Chardon as Programmer & Graphic Artist", 50, 170, '#111111', '14px Arial');
+        showMessage("Music: 'DT3' by Robert Del Nalra.", 40, 200, '#111111', '14px Arial');
+        showMessage("Big thanks to APOIL (apoil.info) for hosting a Real World Gathering!", 40, 230, '#111111', '14px Arial');
         showMessage("Press R to exit credits", 190, 260, '#111111', '15px Arial');
-
-    } else if(!win) {
+    } else {
         //Render the character
         context.fillStyle = '#FBF236';
         context.beginPath();
