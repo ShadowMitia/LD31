@@ -36,3 +36,12 @@ p {
     position: relative;
     bottom: 20px;
 }
+
+a {
+    color: #59A1C5;
+    text-decoration: none;
+}
+
+a:hover {
+    border-bottom: 1px dashed #59A1C5;
+}
